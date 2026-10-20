@@ -17,6 +17,7 @@ import {
   Plus,
   RefreshCw,
   Search,
+  ShoppingBag,
   X,
 } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
@@ -59,6 +60,10 @@ function sizeColorClass(rotulo: string) {
   if (normalized === "G") return "size-color-g";
   if (normalized === "GG" || normalized === "XG") return "size-color-xg";
   return "size-color-other";
+}
+
+function isTrashBag(product: string) {
+  return product.toLocaleLowerCase("pt-BR").includes("saco de lixo");
 }
 
 export default function Home() {
@@ -216,7 +221,7 @@ export default function Home() {
                   <tbody>
                     {filteredItems.map((item) => (
                       <tr key={item.variacaoId} className={selectedId === item.variacaoId ? "selected-row" : ""} onClick={() => { setSelectedId(item.variacaoId); setNotice(""); }}>
-                        <td><div className="product-cell"><span className={`product-symbol ${sizeColorClass(item.rotulo)}`} aria-hidden="true"><Package size={17} strokeWidth={1.8} /></span><span><strong>{item.produto}</strong><small>{item.rotulo} <span className="size-separator">·</span> {item.unidade}</small></span></div></td>
+                        <td><div className="product-cell"><span className={`product-symbol ${sizeColorClass(item.rotulo)} ${isTrashBag(item.produto) ? "trash-bag-symbol" : ""}`} aria-hidden="true">{isTrashBag(item.produto) ? <ShoppingBag size={17} strokeWidth={1.8} /> : <Package size={17} strokeWidth={1.8} />}</span><span><strong>{item.produto}</strong><small>{item.rotulo} <span className="size-separator">·</span> {item.unidade}</small></span></div></td>
                         <td><strong className={item.saldo === null ? "muted-value" : "stock-value"}>{item.saldo === null ? "—" : item.saldo}</strong><span className="cell-unit">{item.saldo === null ? "aguardando" : item.unidade + "s"}</span></td>
                         <td className="minimum-cell">{item.estoqueMinimo > 0 ? `${item.estoqueMinimo} ${item.unidade}s` : "—"}</td>
                         <td><span className={`status status-${item.status.toLowerCase()}`}><span className="status-dot" />{statusText[item.status]}</span></td>
@@ -237,7 +242,7 @@ export default function Home() {
               <form onSubmit={submitCount}>
                 <label className="field-label" htmlFor="variation">PRODUTO E VARIAÇÃO</label>
                 <div className="select-wrap"><select id="variation" value={selectedId ?? ""} onChange={(event) => setSelectedId(event.target.value ? Number(event.target.value) : null)} required><option value="" disabled>Selecione uma variação</option>{items.map((item) => <option key={item.variacaoId} value={item.variacaoId}>{item.produto} · {item.rotulo}</option>)}</select><ChevronDown size={16} /></div>
-                {selected && <div className="selected-stock"><span className="selected-stock-label"><span className={`product-symbol selected-size-icon ${sizeColorClass(selected.rotulo)}`} aria-hidden="true"><Package size={16} strokeWidth={1.8} /></span><span><small>Variação selecionada</small><strong>{selected.rotulo} · {selected.produto}</strong></span></span><span className="selected-stock-balance"><small>Saldo anterior</small><strong>{selected.saldo === null ? "Sem contagem" : `${selected.saldo} ${selected.unidade}s`}</strong></span></div>}
+                {selected && <div className="selected-stock"><span className="selected-stock-label"><span className={`product-symbol selected-size-icon ${sizeColorClass(selected.rotulo)} ${isTrashBag(selected.produto) ? "trash-bag-symbol" : ""}`} aria-hidden="true">{isTrashBag(selected.produto) ? <ShoppingBag size={16} strokeWidth={1.8} /> : <Package size={16} strokeWidth={1.8} />}</span><span><small>Variação selecionada</small><strong>{selected.rotulo} · {selected.produto}</strong></span></span><span className="selected-stock-balance"><small>Saldo anterior</small><strong>{selected.saldo === null ? "Sem contagem" : `${selected.saldo} ${selected.unidade}s`}</strong></span></div>}
                 <label className="field-label quantity-label" htmlFor="quantity">QUANTIDADE CONTADA</label>
                 <div className="quantity-input-wrap"><input id="quantity" type="number" min="0" step="1" inputMode="numeric" placeholder="0" value={quantity} onChange={(event) => setQuantity(event.target.value)} required /><span>{selected?.unidade ?? "unidades"}</span></div>
                 <div className="form-hint"><CircleHelp size={14} /> Use números inteiros. A contagem anterior será mantida no histórico.</div>

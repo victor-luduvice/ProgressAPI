@@ -73,6 +73,12 @@
   background: #e9edf7;
 }
 
+.trash-bag-symbol {
+  border-color: #f0dfc4;
+  color: #a76a22;
+  background: #fff3df;
+}
+
 .selected-stock {
   align-items: center;
   gap: 8px;
