@@ -12,18 +12,18 @@ npm install
 npm run dev
 ```
 
-Abra http://localhost:3001. O servidor Next usa a porta 3000 automaticamente se estiver livre; como a API já ocupa essa porta, ele selecionará outra, normalmente 3001.
+Abra http://localhost:3001 no computador. Para testar pelo celular na mesma rede Wi-Fi, use o endereço `Network` exibido pelo Next ao iniciar o servidor, por exemplo `http://192.168.1.191:3001`.
 
 ## Configuração
 
-Por padrão, a interface chama `http://localhost:3000` e registra as contagens para o usuário de ID `2` (o usuário provisório `Estoque` do seed). Para mudar esses valores, crie `web/.env.local`:
+Por padrão, o Next encaminha `/api/*` para `http://127.0.0.1:3000`, sem expor o endereço da API ao navegador. Isso também permite abrir a interface pelo celular na mesma rede Wi-Fi. Para mudar o endereço da API ou o usuário provisório de ID `2` (o usuário `Estoque` do seed), crie `web/.env.local`:
 
 ```dotenv
-NEXT_PUBLIC_API_URL=http://localhost:3000
+API_URL=http://127.0.0.1:3000
 NEXT_PUBLIC_USER_ID=2
 ```
 
-Em produção, a API precisa permitir CORS para a origem do frontend. A aplicação Nest já habilita CORS.
+O Next faz o proxy da API no servidor, então o navegador usa a mesma origem do PWA e não precisa de CORS entre os serviços.
 
 ## PWA
 

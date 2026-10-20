@@ -31,7 +31,7 @@ type StockItem = {
   ultimaContagemEm: string | null;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
+const API_URL = "/api";
 const USER_ID = Number(process.env.NEXT_PUBLIC_USER_ID ?? 2);
 const statusText: Record<Status, string> = {
   SEM_CONTAGEM: "Sem contagem",
