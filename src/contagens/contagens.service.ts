@@ -7,7 +7,7 @@ import { CriarContagemDto } from './criar-contagem.dto';
 export class ContagensService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async criar(dto: CriarContagemDto) {
+  async criar(dto: CriarContagemDto, usuarioId: number) {
     const variacao = await this.prisma.variacao.findUnique({
       where: { id: dto.variacaoId },
       include: { produto: true },
@@ -15,7 +15,9 @@ export class ContagensService {
     if (!variacao) throw new NotFoundException('Variação não encontrada');
 
     // Contagem nunca é editada: sempre cria um registro novo (histórico)
-    const contagem = await this.prisma.contagem.create({ data: dto });
+    const contagem = await this.prisma.contagem.create({
+      data: { variacaoId: dto.variacaoId, quantidade: dto.quantidade, usuarioId },
+    });
 
     return {
       ...contagem,

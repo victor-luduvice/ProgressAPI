@@ -1,4 +1,5 @@
 import { PrismaClient, Papel } from '@prisma/client';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -10,6 +11,12 @@ const catalogo: Record<string, string[]> = {
 };
 
 async function main() {
+  const senhaLuana = process.env.LUANA_PASSWORD;
+  const senhaMaria = process.env.MARIA_PASSWORD;
+  if (!senhaLuana || senhaLuana.length < 12 || !senhaMaria || senhaMaria.length < 12) {
+    throw new Error('Defina LUANA_PASSWORD e MARIA_PASSWORD com pelo menos 12 caracteres no .env');
+  }
+
   for (const [nome, rotulos] of Object.entries(catalogo)) {
     const produto = await prisma.produto.upsert({
       where: { nome },
@@ -26,17 +33,49 @@ async function main() {
     }
   }
 
-  // Usuários provisórios (a autenticação real entra depois)
-  await prisma.usuario.upsert({
-    where: { email: 'dona@exemplo.com' },
-    update: {},
-    create: { nome: 'Dona', email: 'dona@exemplo.com', senhaHash: 'TROCAR', papel: Papel.DONO },
-  });
-  await prisma.usuario.upsert({
-    where: { email: 'estoque@exemplo.com' },
-    update: {},
-    create: { nome: 'Estoque', email: 'estoque@exemplo.com', senhaHash: 'TROCAR', papel: Papel.ESTOQUE },
-  });
+  const [luanaExistente, mariaExistente] = await Promise.all([
+    prisma.usuario.findUnique({ where: { email: 'dona@exemplo.com' } }),
+    prisma.usuario.findUnique({ where: { email: 'estoque@exemplo.com' } }),
+  ]);
+  const [hashLuana, hashMaria] = await Promise.all([
+    !luanaExistente || luanaExistente.senhaHash === 'TROCAR'
+      ? hash(senhaLuana, 12)
+      : null,
+    !mariaExistente || mariaExistente.senhaHash === 'TROCAR'
+      ? hash(senhaMaria, 12)
+      : null,
+  ]);
+
+  if (!luanaExistente) {
+    await prisma.usuario.create({
+      data: {
+        nome: 'Luana',
+        email: 'dona@exemplo.com',
+        senhaHash: hashLuana!,
+        papel: Papel.DONO,
+      },
+    });
+  } else if (luanaExistente.senhaHash === 'TROCAR') {
+    await prisma.usuario.update({
+      where: { id: luanaExistente.id },
+      data: { nome: 'Luana', senhaHash: hashLuana!, papel: Papel.DONO },
+    });
+  }
+  if (!mariaExistente) {
+    await prisma.usuario.create({
+      data: {
+        nome: 'Maria',
+        email: 'estoque@exemplo.com',
+        senhaHash: hashMaria!,
+        papel: Papel.ESTOQUE,
+      },
+    });
+  } else if (mariaExistente.senhaHash === 'TROCAR') {
+    await prisma.usuario.update({
+      where: { id: mariaExistente.id },
+      data: { nome: 'Maria', senhaHash: hashMaria!, papel: Papel.ESTOQUE },
+    });
+  }
 }
 
 main()

@@ -31,6 +31,23 @@
 $ npm install
 ```
 
+## Acesso e permissões
+
+Configure as variáveis no `.env` local. Não publique esse arquivo:
+
+```dotenv
+DATABASE_URL="postgresql://..."
+JWT_SECRET="gere-um-segredo-aleatorio-com-pelo-menos-32-bytes"
+LUANA_PASSWORD="uma-senha-forte-com-12-caracteres-ou-mais"
+MARIA_PASSWORD="outra-senha-forte-com-12-caracteres-ou-mais"
+```
+
+Depois inicialize os usuários com `npx prisma db seed`. O seed cria Luana (`dona@exemplo.com`, papel `DONO`) e Maria (`estoque@exemplo.com`, papel `ESTOQUE`); se encontrar o hash provisório legado `TROCAR`, substitui apenas esse marcador. Senhas já definidas não são sobrescritas ao repetir o seed.
+
+O login é feito em `POST /auth/login` com `email` e `senha`. A sessão usa cookie `HttpOnly` e dura oito horas. `GET /auth/me` devolve o usuário da sessão e `POST /auth/logout` encerra a sessão.
+
+Ambos os papéis podem consultar `GET /estoque`. Apenas `ESTOQUE` pode criar registros em `POST /contagens`; o usuário da contagem vem da sessão, não do corpo da requisição. Apenas `DONO` pode alterar mínimos em `PATCH /variacoes/:id`.
+
 ## Compile and run the project
 
 ```bash
