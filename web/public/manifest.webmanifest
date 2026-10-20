@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "Armazém | Controle de estoque",
-  "short_name": "Armazém",
+  "name": "Progress | Controle de estoque",
+  "short_name": "Progress",
   "description": "Painel de estoque e registro de contagens.",
   "start_url": "/",
   "scope": "/",

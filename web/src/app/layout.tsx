@@ -8,16 +8,17 @@ import "@fontsource/manrope/600.css";
 import "@fontsource/manrope/700.css";
 import "@fontsource/manrope/800.css";
 import "./globals.css";
+import "./brand.css";
 
 export const metadata: Metadata = {
-  title: "Armazém | Controle de estoque",
+  title: "Progress | Controle de estoque",
   description: "Painel de estoque e registro de contagens.",
-  applicationName: "Armazém",
+  applicationName: "Progress",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Armazém",
+    title: "Progress",
   },
 };
 

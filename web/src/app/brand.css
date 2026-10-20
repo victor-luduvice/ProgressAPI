@@ -1,0 +1,64 @@
+:root {
+  --progress-blue: #34479f;
+  --progress-blue-dark: #26377f;
+  --progress-blue-soft: #eef0fb;
+}
+
+.brand {
+  width: 100%;
+  max-width: 188px;
+  height: auto;
+  margin: 0 0 38px 4px;
+}
+
+.brand img,
+.mobile-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mobile-brand {
+  display: none;
+  width: min(42vw, 160px);
+  flex: none;
+  line-height: 0;
+}
+
+.primary-button {
+  background: var(--progress-blue);
+}
+
+.primary-button:hover:not(:disabled) {
+  background: var(--progress-blue-dark);
+}
+
+.nav-link.active {
+  color: var(--progress-blue);
+  background: var(--progress-blue-soft);
+}
+
+.form-icon {
+  color: var(--progress-blue);
+  background: var(--progress-blue-soft);
+}
+
+@media (max-width: 950px) {
+  .brand {
+    display: none;
+  }
+
+  .mobile-brand {
+    display: block;
+  }
+}
+
+@media (max-width: 620px) {
+  .mobile-brand {
+    width: min(42vw, 154px);
+  }
+
+  .breadcrumb {
+    display: none;
+  }
+}

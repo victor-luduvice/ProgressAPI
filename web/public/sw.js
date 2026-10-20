@@ -1,5 +1,10 @@
-const CACHE_NAME = "armazem-shell-v1";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/icon.svg"];
+const CACHE_NAME = "progress-shell-v2";
+const APP_SHELL = [
+  "/",
+  "/manifest.webmanifest",
+  "/icon.svg",
+  "/logo-progress.png",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

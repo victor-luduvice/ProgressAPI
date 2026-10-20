@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   AlertTriangle,
   ArrowDownToLine,
@@ -146,9 +147,8 @@ export default function Home() {
   return (
     <main className="app-shell">
       <aside className="sidebar">
-        <a className="brand" href="#inicio" aria-label="Estoque, início">
-          <span className="brand-mark"><Boxes size={21} strokeWidth={2.2} /></span>
-          <span>armazém<span className="brand-dot">.</span></span>
+        <a className="brand" href="#inicio" aria-label="Progress Bobinas Plásticas, início">
+          <Image src="/logo-progress.png" alt="Progress Bobinas Plásticas" width={1147} height={328} priority />
         </a>
         <div className="workspace-label">OPERAÇÃO</div>
         <a className="nav-link active" href="#painel"><Boxes size={18} /> Estoque</a>
@@ -161,6 +161,9 @@ export default function Home() {
 
       <section className="main-column" id="inicio">
         <header className="topbar">
+          <a className="mobile-brand" href="#inicio" aria-label="Progress Bobinas Plásticas, início">
+            <Image src="/logo-progress.png" alt="Progress Bobinas Plásticas" width={1147} height={328} priority />
+          </a>
           <div className="breadcrumb"><span>Operação</span><span className="crumb-divider">/</span><strong>Estoque</strong></div>
           <button className="icon-button refresh-button" onClick={() => void loadStock()} title="Atualizar estoque" aria-label="Atualizar estoque" disabled={loading}>
             <RefreshCw size={17} className={loading ? "spinning" : ""} />
@@ -235,7 +238,7 @@ export default function Home() {
               <div className="count-footnote"><ArrowDownToLine size={14} /><span>Seu registro atualiza o painel imediatamente.</span></div>
             </aside>
           </div>
-          <footer className="page-footer"><span>Armazém <span className="footer-separator">·</span> Controle de estoque</span><span>Dados sincronizados com a API <span className="footer-check"><Check size={12} /></span></span></footer>
+          <footer className="page-footer"><span>Progress <span className="footer-separator">·</span> Controle de estoque</span><span>Dados sincronizados com a API <span className="footer-check"><Check size={12} /></span></span></footer>
         </div>
       </section>
     </main>
