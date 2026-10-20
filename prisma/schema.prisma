@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Papel {
+  DONO
+  ESTOQUE
+}
+
+model Usuario {
+  id        Int        @id @default(autoincrement())
+  nome      String
+  email     String     @unique
+  senhaHash String
+  papel     Papel
+  contagens Contagem[]
+}
+
+model Produto {
+  id        Int        @id @default(autoincrement())
+  nome      String     @unique
+  variacoes Variacao[]
+}
+
+model Variacao {
+  id            Int        @id @default(autoincrement())
+  produtoId     Int
+  produto       Produto    @relation(fields: [produtoId], references: [id])
+  rotulo        String
+  unidade       String     @default("caixa")
+  estoqueMinimo Int        @default(0)
+  ativo         Boolean    @default(true)
+  contagens     Contagem[]
+
+  @@unique([produtoId, rotulo])
+}
+
+model Contagem {
+  id         Int      @id @default(autoincrement())
+  variacaoId Int
+  variacao   Variacao @relation(fields: [variacaoId], references: [id])
+  usuarioId  Int
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  quantidade Int
+  criadaEm   DateTime @default(now())
+
+  @@index([variacaoId, criadaEm])
+}
