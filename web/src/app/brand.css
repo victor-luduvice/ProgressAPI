@@ -43,6 +43,266 @@
   background: var(--progress-blue-soft);
 }
 
+.session-tools,
+.session-user,
+.session-user > span {
+  display: flex;
+  align-items: center;
+}
+
+.session-tools {
+  gap: 8px;
+}
+
+.session-user {
+  gap: 8px;
+  margin-right: 4px;
+  color: #647168;
+}
+
+.session-user > span {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.session-user strong {
+  color: #344239;
+  font-size: 11px;
+}
+
+.session-user small {
+  color: #909a93;
+  font-size: 9px;
+}
+
+.login-shell,
+.auth-loading {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 22px;
+  background: radial-gradient(ellipse at 50% 0%, #edf0fb 0%, #f6f7f5 53%, #f5f7f5 100%);
+}
+
+.login-panel {
+  width: min(100%, 410px);
+  padding: 34px;
+  border: 1px solid #e5e8e4;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 16px 50px rgb(39 52 92 / 8%);
+}
+
+.login-logo {
+  display: block;
+  width: min(100%, 250px);
+  height: auto;
+  margin: 0 auto 31px;
+}
+
+.login-eyebrow {
+  color: var(--progress-blue);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.login-panel h1 {
+  margin-top: 8px;
+  font-size: 25px;
+}
+
+.login-description {
+  margin-top: 7px;
+  color: #77827b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.login-form {
+  display: grid;
+  gap: 8px;
+  margin-top: 23px;
+}
+
+.login-form label {
+  margin-top: 7px;
+  color: #59665e;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.login-form input,
+.minimum-input-wrap {
+  height: 41px;
+  border: 1px solid #dfe5df;
+  border-radius: 4px;
+  color: var(--ink);
+  background: #fff;
+}
+
+.login-form input {
+  padding: 0 11px;
+  font-size: 12px;
+}
+
+.login-form input::placeholder {
+  color: #a2aaa4;
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.login-help {
+  margin-top: 17px;
+  color: #8d9790;
+  font-size: 10px;
+  text-align: center;
+}
+
+.auth-loading {
+  grid-auto-flow: column;
+  align-content: center;
+  gap: 10px;
+  color: #627168;
+  font-size: 12px;
+}
+
+.owner-alert-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0 8px;
+  color: #828d85;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .55px;
+}
+
+.owner-alert-heading strong {
+  color: var(--progress-blue);
+  font-size: 12px;
+}
+
+.owner-alert-list {
+  display: grid;
+  max-height: 240px;
+  gap: 5px;
+  overflow-y: auto;
+}
+
+.owner-alert-item {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: #f8f9f8;
+  text-align: left;
+  cursor: pointer;
+}
+
+.owner-alert-item:hover,
+.owner-alert-selected {
+  border-color: #dce1f4;
+  background: #f2f4fc;
+}
+
+.owner-alert-item .product-symbol {
+  width: 28px;
+  height: 28px;
+}
+
+.owner-alert-name {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 3px;
+}
+
+.owner-alert-name strong,
+.owner-alert-name small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.owner-alert-name strong {
+  color: #3d4941;
+  font-size: 10px;
+}
+
+.owner-alert-name small {
+  color: #88938b;
+  font-size: 9px;
+}
+
+.owner-clear-state {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  gap: 8px;
+  padding: 9px;
+  border-radius: 4px;
+  color: #337950;
+  background: #eff7f0;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.minimum-form {
+  margin-top: 17px;
+  padding-top: 14px;
+  border-top: 1px solid #edf0ed;
+}
+
+.owner-selected {
+  padding: 8px 0;
+  background: transparent;
+}
+
+.minimum-help {
+  margin: 0 0 8px;
+  color: #89948d;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.minimum-input-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.minimum-input-wrap input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0 10px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.minimum-input-wrap input:disabled {
+  color: #a0a9a2;
+}
+
+.minimum-input-wrap span {
+  flex: none;
+  padding: 0 10px;
+  color: #849088;
+  font-size: 10px;
+}
+
 .product-symbol {
   border: 1px solid transparent;
 }
@@ -142,5 +402,30 @@
 
   .breadcrumb {
     display: none;
+  }
+
+  .session-tools {
+    gap: 6px;
+  }
+
+  .session-user {
+    gap: 5px;
+    margin-right: 0;
+  }
+
+  .session-user strong {
+    max-width: 66px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .logout-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .login-panel {
+    padding: 27px 22px;
   }
 }

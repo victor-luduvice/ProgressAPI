@@ -16,14 +16,13 @@ Abra http://localhost:3001 no computador. Para testar pelo celular na mesma rede
 
 ## Configuração
 
-Por padrão, o Next encaminha `/api/*` para `http://127.0.0.1:3000`, sem expor o endereço da API ao navegador. Isso também permite abrir a interface pelo celular na mesma rede Wi-Fi. Para mudar o endereço da API ou o usuário provisório de ID `2` (o usuário `Estoque` do seed), crie `web/.env.local`:
+Por padrão, o Next encaminha `/api/*` para `http://127.0.0.1:3000`, sem expor o endereço da API ao navegador. Isso também permite abrir a interface pelo celular na mesma rede Wi-Fi. Para mudar o endereço da API, crie `web/.env.local`:
 
 ```dotenv
 API_URL=http://127.0.0.1:3000
-NEXT_PUBLIC_USER_ID=2
 ```
 
-O Next faz o proxy da API no servidor, então o navegador usa a mesma origem do PWA e não precisa de CORS entre os serviços.
+Entre com o usuário provisionado no seed. O papel `ESTOQUE` registra contagens; o papel `DONO` acompanha alertas e altera mínimos. O Next faz o proxy da API na mesma origem, e a sessão é mantida por cookie HttpOnly.
 
 ## PWA
 
