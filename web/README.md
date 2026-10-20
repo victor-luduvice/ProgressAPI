@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Armazém PWA
 
-## Getting Started
+Interface Next.js para consultar o estoque e registrar contagens pela API NestJS.
 
-First, run the development server:
+## Desenvolvimento
+
+Na raiz do repositório, mantenha a API rodando na porta 3000. Em outro terminal:
 
 ```bash
+cd web
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra http://localhost:3001. O servidor Next usa a porta 3000 automaticamente se estiver livre; como a API já ocupa essa porta, ele selecionará outra, normalmente 3001.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Configuração
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Por padrão, a interface chama `http://localhost:3000` e registra as contagens para o usuário de ID `2` (o usuário provisório `Estoque` do seed). Para mudar esses valores, crie `web/.env.local`:
 
-## Learn More
+```dotenv
+NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_USER_ID=2
+```
 
-To learn more about Next.js, take a look at the following resources:
+Em produção, a API precisa permitir CORS para a origem do frontend. A aplicação Nest já habilita CORS.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## PWA
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+O manifesto está em `public/manifest.webmanifest`; o ícone e o service worker ficam em `public/icon.svg` e `public/sw.js`. Em desenvolvimento, o app pode ser instalado em navegadores compatíveis via opção de instalação. Em produção, sirva a aplicação por HTTPS. O service worker guarda apenas o shell e arquivos estáticos; chamadas de estoque e gravações dependem de conexão ativa com a API.
 
-## Deploy on Vercel
+## Verificações
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run build
+```

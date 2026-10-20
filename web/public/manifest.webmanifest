@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "Armazém | Controle de estoque",
+  "short_name": "Armazém",
+  "description": "Painel de estoque e registro de contagens.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5f7f5",
+  "theme_color": "#176b50",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

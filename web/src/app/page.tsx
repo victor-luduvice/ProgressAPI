@@ -199,7 +199,7 @@ export default function Home() {
               {error && <div className="inline-alert" role="alert"><CircleHelp size={17} /><span>{error}</span><button onClick={() => void loadStock()}>Tentar novamente</button></div>}
               <div className="table-wrap">
                 <table>
-                  <thead><tr><th>PRODUTO</th><th>ÚLTIMO SALDO</th><th>MÍNIMO</th><th>STATUS</th><th>ATUALIZADO</th><th><span className="sr-only">Ação</span></th></tr></thead>
+                  <thead><tr><th>PRODUTO</th><th>ÚLTIMO SALDO</th><th>MÍNIMO</th><th>STATUS</th><th>ATUALIZADO</th><th aria-label="Ação" /></tr></thead>
                   <tbody>
                     {filteredItems.map((item) => (
                       <tr key={item.variacaoId} className={selectedId === item.variacaoId ? "selected-row" : ""} onClick={() => { setSelectedId(item.variacaoId); setNotice(""); }}>
