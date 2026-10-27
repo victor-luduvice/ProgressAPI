@@ -303,6 +303,148 @@
   font-size: 10px;
 }
 
+.history-panel {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.history-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 17px;
+  border-bottom: 1px solid #edf0ed;
+}
+
+.history-icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  place-items: center;
+  border-radius: 5px;
+  color: var(--progress-blue);
+  background: var(--progress-blue-soft);
+}
+
+.history-heading h2 {
+  font-family: var(--font-display);
+  font-size: 13px;
+}
+
+.history-heading p {
+  margin-top: 3px;
+  color: #8b958e;
+  font-size: 10px;
+}
+
+.history-count {
+  margin-left: auto;
+  color: #8b958e;
+  font-size: 10px;
+}
+
+.history-row {
+  display: flex;
+  min-height: 55px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 17px;
+  border-bottom: 1px solid #f0f2f0;
+}
+
+.history-row:last-child {
+  border-bottom: 0;
+}
+
+.history-product-icon {
+  width: 29px;
+  height: 29px;
+  flex: none;
+}
+
+.history-product {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 3px;
+}
+
+.history-product strong,
+.history-product small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-product strong {
+  color: #354139;
+  font-size: 10px;
+}
+
+.history-product small {
+  color: #8c9690;
+  font-size: 9px;
+}
+
+.history-quantity {
+  min-width: 64px;
+  color: #344239;
+  font-size: 12px;
+  text-align: right;
+}
+
+.history-quantity small {
+  color: #8c9690;
+  font-size: 9px;
+  font-weight: 400;
+}
+
+.history-row time {
+  width: 102px;
+  flex: none;
+  color: #8c9690;
+  font-size: 9px;
+  text-align: right;
+}
+
+.history-empty {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #89948d;
+  font-size: 10px;
+}
+
+@media (max-width: 620px) {
+  .history-heading {
+    padding: 12px;
+  }
+
+  .history-row {
+    gap: 7px;
+    padding: 8px 10px;
+  }
+
+  .history-quantity {
+    min-width: 48px;
+    font-size: 11px;
+  }
+
+  .history-quantity small {
+    display: block;
+  }
+
+  .history-row time {
+    width: 72px;
+    font-size: 8px;
+  }
+}
+
 .product-symbol {
   border: 1px solid transparent;
 }

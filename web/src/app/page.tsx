@@ -11,6 +11,7 @@ import {
   ChevronDown,
   CircleHelp,
   Clock3,
+  History,
   LoaderCircle,
   LogOut,
   Package,
@@ -35,6 +36,15 @@ type StockItem = {
   estoqueMinimo: number;
   status: Status;
   ultimaContagemEm: string | null;
+};
+type CountRecord = {
+  id: number;
+  variacaoId: number;
+  produto: string;
+  rotulo: string;
+  quantidade: number;
+  criadaEm: string;
+  usuario: { id: number; nome: string; papel: User["papel"] };
 };
 
 const API_URL = "/api";
@@ -70,6 +80,7 @@ function isTrashBag(product: string) {
 
 export default function Home() {
   const [items, setItems] = useState<StockItem[]>([]);
+  const [history, setHistory] = useState<CountRecord[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [checkingSession, setCheckingSession] = useState(true);
   const [loginEmail, setLoginEmail] = useState("");
@@ -104,14 +115,28 @@ export default function Home() {
     }
   }
 
+  async function loadHistory() {
+    try {
+      const response = await fetch(`${API_URL}/contagens?limite=20`, {
+        cache: "no-store",
+      });
+      if (!response.ok) throw new Error("Não foi possível carregar o histórico.");
+      setHistory((await response.json()) as CountRecord[]);
+    } catch {
+      setError("Não conseguimos carregar o histórico de contagens.");
+    }
+  }
+
   useEffect(() => {
     const initialLoad = window.setTimeout(() => {
       void (async () => {
         try {
           const response = await fetch(`${API_URL}/auth/me`, { cache: "no-store" });
           if (response.ok) {
-            setUser((await response.json()) as User);
+            const sessionUser = (await response.json()) as User;
+            setUser(sessionUser);
             await loadStock();
+            if (sessionUser.papel === "DONO") await loadHistory();
           }
         } catch {
           setOffline(true);
@@ -199,6 +224,7 @@ export default function Home() {
       setUser(result.user);
       setLoginPassword("");
       await loadStock();
+      if (result.user.papel === "DONO") await loadHistory();
     } catch (reason) {
       setLoginError(reason instanceof Error ? reason.message : "Não foi possível entrar.");
     } finally {
@@ -210,6 +236,7 @@ export default function Home() {
     await fetch(`${API_URL}/auth/logout`, { method: "POST" }).catch(() => undefined);
     setUser(null);
     setItems([]);
+    setHistory([]);
     setSelectedId(null);
     setQuantity("");
   }
@@ -370,6 +397,10 @@ export default function Home() {
               </form>
             </aside>}
           </div>
+          {user.papel === "DONO" && <section className="history-panel" aria-labelledby="history-title">
+            <div className="history-heading"><span className="history-icon"><History size={17} /></span><div><h2 id="history-title">Histórico de contagens</h2><p>Registros recentes da equipe</p></div><span className="history-count">{history.length} recentes</span></div>
+            {history.length > 0 ? <div className="history-list">{history.map((record) => <article className="history-row" key={record.id}><span className={`product-symbol history-product-icon ${sizeColorClass(record.rotulo)} ${isTrashBag(record.produto) ? "trash-bag-symbol" : ""}`} aria-hidden="true">{isTrashBag(record.produto) ? <ShoppingBag size={16} /> : <Package size={16} />}</span><span className="history-product"><strong>{record.produto}</strong><small>{record.rotulo} · {record.usuario.nome}</small></span><strong className="history-quantity">{record.quantidade}<small> caixas</small></strong><time dateTime={record.criadaEm}>{formatTime(record.criadaEm)}</time></article>)}</div> : <div className="history-empty"><History size={18} /><span>Nenhuma contagem registrada ainda.</span></div>}
+          </section>}
           <footer className="page-footer"><span>Progress <span className="footer-separator">·</span> Controle de estoque</span><span>Dados sincronizados com a API <span className="footer-check"><Check size={12} /></span></span></footer>
         </div>
       </section>
