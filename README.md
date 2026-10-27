@@ -27,6 +27,8 @@
 
 ## Project setup
 
+Use Node.js 22.22.3 ou superior (ou Node 24.15.0 ou superior), conforme os requisitos do NestJS 12 usado neste projeto.
+
 ```bash
 $ npm install
 ```

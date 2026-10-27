@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Papel, PrismaClient } from '@prisma/client';
 import { hash } from 'bcryptjs';
 import { emitKeypressEvents } from 'node:readline';
@@ -40,15 +41,15 @@ async function lerSenhaSemEco() {
 }
 
 async function main() {
-  try {
-    process.loadEnvFile('.env');
-  } catch {
-    // Variáveis de ambiente também podem vir do processo.
-  }
-
   const [emailArgument] = process.argv.slice(2);
+  if (emailArgument === '--help' || emailArgument === '-h') {
+    console.log('Uso: npm run user:set-password -- <email>');
+    return;
+  }
   const email = emailArgument?.toLowerCase();
-  if (!email) throw new Error('Uso: npm run user:set-password -- <email>');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error('Uso: npm run user:set-password -- <email>');
+  }
 
   const usuario = await prisma.usuario.findUnique({
     where: { email },
