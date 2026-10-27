@@ -31,11 +31,15 @@ Use Node.js 22.22.3 ou superior (ou Node 24.15.0 ou superior), conforme os requi
 
 ```bash
 $ npm install
+$ cp .env.example .env
+$ docker compose up -d db
 ```
+
+Edite `.env`: defina `JWT_SECRET` com um segredo aleatório e configure senhas diferentes de pelo menos 12 caracteres para `LUANA_PASSWORD` e `MARIA_PASSWORD`. Antes de preparar o banco, confirme que `DATABASE_URL` aponta para a base local desejada. Então execute `npm run db:setup` para aplicar migrações e provisionar o catálogo/usuários. Esse comando altera o banco indicado por `DATABASE_URL`.
 
 ## Acesso e permissões
 
-Configure as variáveis no `.env` local. Não publique esse arquivo:
+As variáveis são configuradas no `.env` local, criado a partir de `.env.example`. Não publique esse arquivo:
 
 ```dotenv
 DATABASE_URL="postgresql://..."
