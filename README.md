@@ -51,15 +51,17 @@ Ambos os papéis podem consultar `GET /estoque`. Apenas `ESTOQUE` pode criar reg
 ## Compile and run the project
 
 ```bash
-# development
-$ npm run start
+# API em desenvolvimento
+$ npm run dev
 
-# watch mode
-$ npm run start:dev
+# PWA em outro terminal
+$ npm run dev:web
 
-# production mode
+# produção da API
 $ npm run start:prod
 ```
+
+A API fica em `http://localhost:3000` e a PWA em `http://localhost:3001`. Inicie os dois comandos de desenvolvimento em terminais separados.
 
 ## Run tests
 
