@@ -44,6 +44,8 @@ MARIA_PASSWORD="outra-senha-forte-com-12-caracteres-ou-mais"
 
 Depois inicialize os usuários com `npx prisma db seed`. O seed cria Luana (`dona@exemplo.com`, papel `DONO`) e Maria (`estoque@exemplo.com`, papel `ESTOQUE`); se encontrar o hash provisório legado `TROCAR`, substitui apenas esse marcador. Senhas já definidas não são sobrescritas ao repetir o seed.
 
+Para criar ou trocar a senha de uma conta existente sem passar a senha na linha de comando, execute `npm run user:set-password -- dona@exemplo.com` ou `npm run user:set-password -- estoque@exemplo.com`. O terminal solicita a senha sem exibi-la; use pelo menos 12 caracteres.
+
 O login é feito em `POST /auth/login` com `email` e `senha`. A sessão usa cookie `HttpOnly` e dura oito horas. `GET /auth/me` devolve o usuário da sessão e `POST /auth/logout` encerra a sessão.
 
 Ambos os papéis podem consultar `GET /estoque`. Apenas `ESTOQUE` pode criar registros em `POST /contagens`; o usuário da contagem vem da sessão, não do corpo da requisição. Apenas `DONO` pode alterar mínimos em `PATCH /variacoes/:id`.
