@@ -1,4 +1,13 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  DefaultValuePipe,
+  Get,
+  ParseIntPipe,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { Papel } from '@prisma/client';
 import { CurrentUser, Roles } from '../auth/auth.decorators';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -19,5 +28,13 @@ export class ContagensController {
     @CurrentUser() user: UsuarioAutenticado,
   ) {
     return this.contagens.criar(dto, user.id);
+  }
+
+  @Get()
+  @Roles(Papel.DONO)
+  listarRecentes(
+    @Query('limite', new DefaultValuePipe(20), ParseIntPipe) limite: number,
+  ) {
+    return this.contagens.listarRecentes(Math.min(Math.max(limite, 1), 100));
   }
 }

@@ -5,6 +5,7 @@ import { ContagensService } from './contagens.service';
 describe('ContagensService', () => {
   let service: ContagensService;
   let create: jest.Mock;
+  let findMany: jest.Mock;
 
   beforeEach(() => {
     create = jest.fn().mockResolvedValue({
@@ -14,6 +15,19 @@ describe('ContagensService', () => {
       quantidade: 40,
       criadaEm: new Date('2026-10-20T12:00:00.000Z'),
     });
+    findMany = jest.fn().mockResolvedValue([
+      {
+        id: 8,
+        variacaoId: 3,
+        quantidade: 40,
+        criadaEm: new Date('2026-10-20T12:00:00.000Z'),
+        variacao: {
+          rotulo: 'P',
+          produto: { nome: 'Bobina Plástica Padrão' },
+        },
+        usuario: { id: 7, nome: 'Maria', papel: 'ESTOQUE' },
+      },
+    ]);
     const prisma = {
       variacao: {
         findUnique: jest.fn().mockResolvedValue({
@@ -23,7 +37,7 @@ describe('ContagensService', () => {
           produto: { nome: 'Bobina Plástica Padrão' },
         }),
       },
-      contagem: { create },
+      contagem: { create, findMany },
     } as unknown as PrismaService;
     service = new ContagensService(prisma);
   });
@@ -40,5 +54,29 @@ describe('ContagensService', () => {
       rotulo: 'P',
       status: 'CRITICO',
     });
+  });
+
+  it('lists recent counts with product and author details', async () => {
+    const result = await service.listarRecentes(10);
+
+    expect(findMany).toHaveBeenCalledWith({
+      take: 10,
+      orderBy: { criadaEm: 'desc' },
+      include: {
+        variacao: { include: { produto: true } },
+        usuario: { select: { id: true, nome: true, papel: true } },
+      },
+    });
+    expect(result).toEqual([
+      {
+        id: 8,
+        variacaoId: 3,
+        produto: 'Bobina Plástica Padrão',
+        rotulo: 'P',
+        quantidade: 40,
+        criadaEm: new Date('2026-10-20T12:00:00.000Z'),
+        usuario: { id: 7, nome: 'Maria', papel: 'ESTOQUE' },
+      },
+    ]);
   });
 });

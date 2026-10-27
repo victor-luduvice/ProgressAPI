@@ -26,4 +26,25 @@ export class ContagensService {
       status: calcularStatus(contagem.quantidade, variacao.estoqueMinimo),
     };
   }
+
+  async listarRecentes(limite = 20) {
+    const contagens = await this.prisma.contagem.findMany({
+      take: limite,
+      orderBy: { criadaEm: 'desc' },
+      include: {
+        variacao: { include: { produto: true } },
+        usuario: { select: { id: true, nome: true, papel: true } },
+      },
+    });
+
+    return contagens.map((contagem) => ({
+      id: contagem.id,
+      variacaoId: contagem.variacaoId,
+      produto: contagem.variacao.produto.nome,
+      rotulo: contagem.variacao.rotulo,
+      quantidade: contagem.quantidade,
+      criadaEm: contagem.criadaEm,
+      usuario: contagem.usuario,
+    }));
+  }
 }
